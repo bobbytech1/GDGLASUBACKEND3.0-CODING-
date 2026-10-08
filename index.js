@@ -1,14 +1,15 @@
 const express = require('express');
 const app = express();
+const router = require('./src/routes/index.route');
 const PORT = 3000;
-const userRoutes = require('./src/routes/user.route')
 
 app.get('/', (req, res) => {
-    res.send('Hello  Bootcamp Students! How is Life')
-})
+  res.send('Hello  Bootcamp Students! How is Life');
+});
 
-app.use('/api/users', userRoutes);
+app.use('/api/v1', router);
 
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`)    
-})
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
+
