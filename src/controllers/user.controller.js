@@ -1,38 +1,47 @@
 const { users } = require('../data/users');
 
 const getAllUsers = (req, res) => {
-  const { school } = req.query;
+  const { school, search, page = 1, limit = 2 } = req.query;
+
+  let result = [...users];
+
 
   if (school) {
-    const filteredUsers = users.filter(
-      (user) => user.school.toUpperCase() === school.toUpperCase(),
-    );
+    result = result.filter(
+      (user) =>  
+      user.school.toLowerCase() === school.toLowerCase()
+    )
+  }
+ 
 
-    if (filteredUsers.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: 'No user found with this school',
-        data: null,
-      });
-    }
-    return res.status(200).json({
-      success: true,
-      length: filteredUsers.length,
-      data: filteredUsers,
-    });
+  if (search) {
+    result = result.filter((user) => {
+      return user.name.toLowerCase().includes(search.toLowerCase());
+    })
   }
 
+  const pageNum = parseInt(page);
+  const limitNum = parseInt(limit);
+
+  const startIndex = (pageNum - 1) * limitNum;
+  const endIndex = pageNum * limitNum
+
+  const paginatedResult = result.slice(startIndex, endIndex);
+  
   res.status(200).json({
     success: true,
-    length: users.length,
-    data: users,
-  });
+    totalRecords: result.length,
+    page: pageNum,
+    totalPages: Math.ceil(result.length / limitNum),
+    data: paginatedResult
+   })
+
 };
 
 const getUser = (req, res) => {
   const { id } = req.params;
   if (!id) {
-    res.status(404).json({
+    return res.status(404).json({
       success: false,
       message: 'Pls Provide User ID',
       data: null,
@@ -55,10 +64,31 @@ const getUser = (req, res) => {
 };
 
 const createUser = (req, res) => {
+  const {name, age, school, oneLiner} = req.body;
+
+  if (!name || !age || !school || !oneLiner) {
+    return res.status(400).json({
+      success: false,
+      message: 'Name, age, and school are required fields'
+    })
+  }
+
+  const newUser = {
+    id: (Math.random() * 100000).toFixed(0).toString(),
+    name,
+    age,
+    school,
+    oneLiner,
+  }
+
+  users.push(newUser);
   res.status(201).json({
     success: true,
     message: 'User created successfully',
+    data: newUser
   });
 };
+
+
 
 module.exports = { getAllUsers, createUser, getUser };
