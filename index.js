@@ -3,6 +3,7 @@ const app = express();
 const router = require('./src/routes/index.route');
 const PORT = 3000;
 const requestLogger = require('./src/middleware/customLogger');
+const connectDB = require('./src/config/db');
 
 app.use(requestLogger);
 app.use(express.json());
@@ -23,6 +24,7 @@ app.use((err, req, res, next) => {
   })
 })
 
+connectDB()
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
