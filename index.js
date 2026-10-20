@@ -20,12 +20,15 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).json({
     success: false,
     message: err.message || 'Internal Server Error',
-    data: null
-  })
-})
-
-connectDB()
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+    data: null,
+  });
 });
 
+const startServer = async () => {
+  await connectDB();
+  app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+  });
+};
+
+startServer();

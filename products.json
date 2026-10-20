@@ -1,0 +1,25 @@
+{
+  "name": "Shola David",
+  "year": 3,
+  "role": "Software Engineer",
+  "course": "Data Science",
+  "level": "Graduate",
+  "skills": [
+    "Python",
+    "Java",
+    "C++",
+    "JavaScript",
+    "HTML",
+    "CSS",
+    "React",
+    "Node.js",
+    "Express",
+    "MongoDB",
+    "PostgreSQL",
+    "Git",
+    "GitHub"
+  ],
+  "gender": "male"
+}
+
+
