@@ -24,7 +24,7 @@ const productSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ['', '', ''],
+    enum: ['OMITUTU', 'OGUN', ''],
     // required: true,
   },
   reviews: [{ body: String, rating: { type: Number, max: 5, min: 0 } }],
